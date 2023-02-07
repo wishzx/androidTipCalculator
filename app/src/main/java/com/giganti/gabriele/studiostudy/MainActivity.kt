@@ -7,7 +7,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.SeekBar
+import android.widget.Switch
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import java.util.*
@@ -22,8 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipAmount: TextView
     private lateinit var tvTotalAmount: TextView
     private lateinit var tvTipDescription: TextView
-
-
+    private lateinit var switchSplit : Switch
+    private lateinit var splitNumber : EditText
+    private lateinit var radioButtonRound : RadioButton
+    private lateinit var tvTotalEach : TextView
+    private lateinit var tvTotalEachValue : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,22 @@ class MainActivity : AppCompatActivity() {
         seekBarTip.progress = INITIAL_TIP_PERCENT
         tvTipPercent.text = "$INITIAL_TIP_PERCENT%"
         updateTipDescription(INITIAL_TIP_PERCENT)
+
+        switchSplit = findViewById(R.id.switch4)
+        splitNumber = findViewById(R.id.editTextNumber4)
+        radioButtonRound = findViewById(R.id.radioButton3)
+        tvTotalEach = findViewById(R.id.tvTotalEach)
+        tvTotalEachValue = findViewById(R.id.tvTotalEachValue)
+
+
+        // switch on/off activate/deactivate splitNUmber and tvTotalEach and tvTotalEachValue
+
+
+        // on editing split number recalculate tvTotalEach and tvTotalEachValue
+
+
+        // on radioButtonRound activated activate the rounding of the correct textviews
+
 
 
         seekBarTip.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
