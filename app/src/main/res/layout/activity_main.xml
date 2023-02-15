@@ -117,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:fontFamily="sans-serif-condensed-light"
-        android:text="MADE WITH ❤️ BY WISH"
+        android:text="MADE WITH ❤️ BY WISHZX"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -154,14 +154,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/switch4"
         app:layout_constraintStart_toEndOf="@+id/switch4"
         app:layout_constraintTop_toTopOf="@+id/switch4"
-        tools:text="1" />
+        android:text="1" />
 
-    <RadioButton
-        android:id="@+id/radioButton3"
+    <Switch
+        android:id="@+id/switch5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="40dp"
         android:text="Round"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTotalEach" />

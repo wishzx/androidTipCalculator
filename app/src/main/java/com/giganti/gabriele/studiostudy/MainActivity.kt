@@ -1,18 +1,17 @@
 package com.giganti.gabriele.studiostudy
 
 import android.animation.ArgbEvaluator
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.SeekBar
-import android.widget.Switch
-import android.widget.TextView
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import java.util.*
+
 
 private const val TAG = "MainActivity"
 private const val INITIAL_TIP_PERCENT = 15
@@ -26,9 +25,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipDescription: TextView
     private lateinit var switchSplit : Switch
     private lateinit var splitNumber : EditText
-    private lateinit var radioButtonRound : RadioButton
+    private lateinit var switchButtonRound : Switch
     private lateinit var tvTotalEach : TextView
     private lateinit var tvTotalEachValue : TextView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,19 +48,46 @@ class MainActivity : AppCompatActivity() {
 
         switchSplit = findViewById(R.id.switch4)
         splitNumber = findViewById(R.id.editTextNumber4)
-        radioButtonRound = findViewById(R.id.radioButton3)
+        switchButtonRound = findViewById(R.id.switch5)
         tvTotalEach = findViewById(R.id.tvTotalEach)
         tvTotalEachValue = findViewById(R.id.tvTotalEachValue)
 
+        // hide stuff
+        splitNumber.visibility = View.INVISIBLE;
+        tvTotalEach.visibility = View.INVISIBLE;
+        tvTotalEachValue.visibility = View.INVISIBLE;
+        switchButtonRound.visibility = View.INVISIBLE;
+
+        // end initialization
 
         // switch on/off activate/deactivate splitNUmber and tvTotalEach and tvTotalEachValue
+        switchSplit.setOnCheckedChangeListener{ _, isChecked ->
+            if (isChecked){
+                computeSplit()
+                splitNumber.visibility = View.VISIBLE;
+                tvTotalEach.visibility = View.VISIBLE;
+                tvTotalEachValue.visibility = View.VISIBLE;
+            }
+            else {
+                splitNumber.visibility = View.INVISIBLE;
+                tvTotalEach.visibility = View.INVISIBLE;
+                tvTotalEachValue.visibility = View.INVISIBLE;
+            }
+
+        }
 
 
         // on editing split number recalculate tvTotalEach and tvTotalEachValue
+        splitNumber.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(p0: Editable?) { computeSplit() }
+
+        })
 
 
-        // on radioButtonRound activated activate the rounding of the correct textviews
-
+        // on switchButtonRound activated activate the rounding of the correct textviews
+        switchButtonRound.setOnCheckedChangeListener{ _, isChecked ->  }
 
 
         seekBarTip.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -112,16 +140,42 @@ class MainActivity : AppCompatActivity() {
             tvTipAmount.text = ""
             return
         }
-
         val baseAmount = etBaseAmount.text.toString().toDouble()
         val tipPerc = seekBarTip.progress
+
         // compute tip and total
         val tip = baseAmount * tipPerc / 100
         val total = baseAmount + tip
+
         // update ui
         tvTipAmount.text = "%.2f".format(tip)
         tvTotalAmount.text = "%.2f".format(total)
 
+        if (switchSplit.isChecked) {
+            computeSplit()
+        }
+
+    }
+
+    private fun computeSplit() {
+        //check if they inputed an empty or 0 split
+        if (splitNumber.text.isEmpty() || splitNumber.text.toString().toInt() == 0){
+            splitNumber.setText("1");
+        }
+        //check if base amount is set
+        if (tvTotalAmount.text.isEmpty()){
+            return
+        }
+
+        // get totalAmount and split
+        val totalAmount = tvTotalAmount.text.toString().toDouble()
+        val split = splitNumber.text.toString().toDouble()
+
+        // compute split
+        val totalEach = totalAmount / split ;
+
+        // set totalEach
+        tvTotalEachValue.text = "%.2f".format(totalEach)
     }
 
 }
